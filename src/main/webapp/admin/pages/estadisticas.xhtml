@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:r="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="keywords" content="footer, address, phone, icons" />
+        <title>Consultar Recurso</title>
+
+        <link rel="icon" type="image/png" href="/resources/img/libro.png" />
+        <link href="/resources/css/login.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+
+        <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    </h:head>
+    <h:body style="margin:0px; padding:0px;" >
+        <div class="head">
+            <div class="image">
+                <img src="/resources/img/banner-biblioteca.jpg" style="width:250px;"></img>
+            </div>
+            <div id="divbarraid" class="divbarra">
+                <h1>Estadísticas de los recursos</h1>
+            </div>
+        </div>
+        <br/>
+        <div class="nav">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Inicio" action="#{recursoBean.reloadAdmin}" icon="pi pi-times" />
+                    <p:submenu label="Opciones" icon="pi pi-file">
+                        <p:menuitem value="Administrar Recursos" url="/faces/admin/pages/cambiarEstadoRecurso.xhtml" />
+                        <p:menuitem value="Reservar Recursos" url="/faces/admin/pages/verRecursos.xhtml" />
+                        <p:menuitem value="Generar reporte" action="#{recursoBean.generarReporte()}" />
+                    </p:submenu>
+                    <p:menuitem value="Bienvenido #{userBean.nombre}" icon="pi pi-times"/>
+                    <f:facet name="options">
+                        <p:commandButton value="Cerrar sesión" class="dropdown-item" action="#{userBean.doLogOut()}" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+        </div>
+        <br></br>
+
+        <h:form>
+            <p:growl id="growl" showDetail="true" />
+
+            <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                <p:chart type="pie" model="#{recursoBean.ubicacionRecursosGra}" style="width:500px;height:300px" responsive="true">
+                </p:chart>
+                
+                <p:chart type="bar" model="#{recursoBean.tipoDeReservasGra}" style="width:500px;height:300px" responsive="true">
+                </p:chart>
+                
+                <p:chart type="bar" model="#{recursoBean.recursoMasUsadosGra}" style="width:500px;height:300px" responsive="true">
+                </p:chart>
+                
+                <p:chart type="bar" model="#{recursoBean.recursoMenosUsadosGra}" style="width:500px;height:300px" responsive="true">
+                </p:chart>
+                
+                <p:chart type="bar" model="#{recursoBean.horariosMasUsadosGra}" style="width:500px;height:300px" responsive="true">
+                </p:chart>
+                
+                <p:chart type="bar" model="#{recursoBean.horariosMenosUsadosGra}" style="width:500px;height:300px" responsive="true">
+                </p:chart>
+                
+            </h:panelGrid>
+
+        </h:form>
+
+        <br/>
+        <!-- Site footer -->
+
+        <!-- Footer -->
+        <div class="footerlogin" id="footerloginid"></div>
+        <!-- Footer -->
+
+    </h:body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.eci.cvds.persistence.mybatisimpl.mappers.HorarioMapper">
+    <resultMap id="HorarioResult" type="edu.eci.cvds.entities.Horario">
+        <id property="id" column="id"/>
+        <result property="horaInicio" column="hora_inicio"/>
+        <result property="horaFin" column="hora_fin"/>
+        <association property="recurso" javaType="edu.eci.cvds.entities.Recurso" resultMap="edu.eci.cvds.persistence.mybatisimpl.mappers.RecursoMapper.RecursoResult"
+                     columnPrefix="r_"/>
+    </resultMap>
+
+    <insert id="ingresarHorario" parameterType="map">
+        insert into horario(id_recurso,hora_inicio,hora_fin) values(#{recurso.identificadorInterno},#{horario.horaInicio},#{horario.horaFin});
+    </insert>
+
+    <select id="horarios" parameterType="map" resultMap="HorarioResult">
+        select
+        h.id,
+        h.hora_inicio,
+        h.hora_fin,
+        r.id_interno as r_id_interno,
+        r.nombre as r_nombre,
+        r.ubicacion as r_ubicacion,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        tr.id as r_tr_id,
+        tr.tipo as r_tr_tipo
+        from horario as h left join recurso as r on h.id_recurso=r.id_interno
+        left join tipo_recurso as tr on r.id_tipo=tr.id;
+    </select>
+
+    <select id="horariosRecurso" parameterType="map" resultMap="HorarioResult">
+        select
+        h.id,
+        h.hora_inicio,
+        h.hora_fin,
+        r.id_interno as r_id_interno,
+        r.nombre as r_nombre,
+        r.ubicacion as r_ubicacion,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        tr.id as r_tr_id,
+        tr.tipo as r_tr_tipo
+        from horario as h left join recurso as r on h.id_recurso=r.id_interno
+        left join tipo_recurso as tr on r.id_tipo=tr.id where r.id_interno=#{recurso.identificadorInterno};
+    </select>
+
+</mapper>

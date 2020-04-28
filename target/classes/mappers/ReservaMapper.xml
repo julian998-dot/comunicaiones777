@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+                     
+<mapper namespace="edu.eci.cvds.persistence.mybatisimpl.mappers.ReservaMapper">
+    <resultMap id="ReservaResult" type="edu.eci.cvds.entities.Reserva">
+        <id property="id" column="id"/>
+        <result property="fechaInicio" column="fecha_ini"/>
+        <result property="fechaFin" column="fecha_fin"/>
+        <result property="estado" column="estado"/>
+        <result property="tipo" column="tipo"/>
+        <association property="recurso" javaType="edu.eci.cvds.entities.Recurso" resultMap="edu.eci.cvds.persistence.mybatisimpl.mappers.RecursoMapper.RecursoResult" columnPrefix="r_"/>
+        <association property="usuario" javaType="edu.eci.cvds.entities.Usuario" resultMap="edu.eci.cvds.persistence.mybatisimpl.mappers.UsuarioMapper.UsuarioResult" columnPrefix="u_"/>
+    </resultMap>
+
+    <insert id="reservarRecurso" parameterType="map">
+        insert into reserva(id_recurso,id_usuario,fecha_ini,fecha_fin,estado,tipo) values(#{recurso.identificadorInterno},#{usuario.id},#{fechaIni},#{fechaFin},'Activa',#{tipo});
+    </insert>
+
+    <select id="consultarReservasUsuario" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where u.id=#{id} and re.estado='Activa';
+    </select>
+
+    <select id="consultarReservas" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where u.id is not null;
+    </select>
+
+    <select id="consultarReservasActivas" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where u.id is not null and re.estado='Activa';
+    </select>
+
+    <select id="consultarReservaRecurso" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where r.id_interno=#{recurso.identificadorInterno} and re.estado='Activa';
+    </select>
+
+    <select id="consultarReserva" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where re.id=#{id};
+    </select>
+
+    <select id="reservasActivasUsuario" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where u.id=#{usuario.id} and re.estado='Activa';
+    </select>
+
+    <select id="reservasCanceladasUsuario" parameterType="map" resultMap="ReservaResult">
+        select
+        re.id,
+        re.fecha_ini,
+        re.fecha_fin,
+        re.estado,
+        re.tipo,
+        r.nombre as r_nombre,
+        r.id_interno as r_id_interno,
+        r.capacidad as r_capacidad,
+        r.estado as r_estado,
+        r.ubicacion as r_ubicacion,
+        tr.tipo as r_tr_tipo,
+        tr.id as r_tr_id,
+        u.nombre as u_nombre,
+        u.id as u_id,
+        u.passw as u_passw,
+        u.tipo as u_tipo,
+        u.carnet as u_carnet,
+        u.carrera as u_carrera
+        from
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id
+        left join reserva as re on r.id_interno=re.id_recurso
+        left join usuario as u on u.id=re.id_usuario where u.id=#{usuario.id} and re.estado='Cancelada';
+    </select>
+
+    <update id="eliminarReserva" parameterType="map">
+        update reserva set estado='Cancelada' where id=#{reserva.id};
+    </update>
+</mapper>

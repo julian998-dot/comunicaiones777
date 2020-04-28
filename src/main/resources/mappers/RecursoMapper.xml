@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.eci.cvds.persistence.mybatisimpl.mappers.RecursoMapper">
+    <resultMap id="RecursoResult" type="edu.eci.cvds.entities.Recurso">
+        <id property="identificadorInterno" column="id_interno"/>
+        <result property="nombre" column="nombre"/>
+        <result property="ubicacion" column="ubicacion"/>
+        <result property="capacidad" column="capacidad"/>
+        <result property="estado" column="estado"/>
+        <association property="tipoRecurso" javaType="edu.eci.cvds.entities.TipoRecurso" resultMap="edu.eci.cvds.persistence.mybatisimpl.mappers.TipoRecursoMapper.TipoRecursoResult"
+                     columnPrefix="tr_"/>
+    </resultMap>
+
+    <insert id="registraNuevoRecurso" parameterType="map">
+        insert into RECURSO(nombre,ubicacion,capacidad,id_tipo,estado) values
+        (#{recurso.nombre},#{recurso.ubicacion},#{recurso.capacidad},#{recurso.tipoRecurso.id},#{recurso.estado});
+    </insert>
+
+    <update id="eliminarRecursoPermanente" parameterType="map">
+        update RECURSO set estado='Eliminado' where id_interno=#{recurso.identificadorInterno};
+    </update>
+
+    <update id="eliminarRecursoTemporal" parameterType="map">
+        update RECURSO set estado='No Disponible' WHERE id_interno=#{recurso.identificadorInterno};
+    </update>
+
+    <update id="volverAAdmitirRecurso" parameterType="map">
+        update RECURSO SET estado='Disponible' WHERE id_interno=#{recurso.identificadorInterno};
+    </update>
+
+    <select id="consultarRecursos" parameterType="map" resultMap="RecursoResult">
+        select
+        r.id_interno,
+        r.capacidad,
+        r.estado,
+        r.nombre,
+        r.ubicacion,
+        tr.id as tr_id,
+        tr.tipo as tr_tipo
+        FROM
+        recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id where r.estado='Disponible';
+    </select>
+
+    <select id="consultarRecurso" parameterType="map" resultMap="RecursoResult">
+        select
+        r.id_interno,
+        r.capacidad,
+        r.estado,
+        r.nombre,
+        r.ubicacion,
+        tr.id as tr_id,
+        tr.tipo as tr_tipo
+        FROM recurso as r left join tipo_recurso as tr on r.id_tipo=tr.id where r.id_interno=#{id};
+    </select>
+
+    <select id="consultarRecursosAdmin" parameterType="map" resultMap="RecursoResult">
+        select
+        r.id_interno,
+        r.capacidad,
+        r.estado,
+        r.nombre,
+        r.ubicacion,
+        tr.id as tr_id,
+        tr.tipo as tr_tipo
+        from recurso as r left join tipo_recurso as tr on id_tipo=id;
+    </select>
+
+</mapper>

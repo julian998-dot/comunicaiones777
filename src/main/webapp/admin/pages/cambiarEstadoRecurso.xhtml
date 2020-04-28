@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:r="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Cambiar de estado un recurso</title>
+        <meta charset="utf-8"/>
+        <link rel="icon" type="image/png" href="/resources/img/libro.png" />
+        <link href="/resources/css/login.css" rel="stylesheet" />
+        <!--link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"/-->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+
+        <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    </h:head>
+    <h:body style="margin:0px; padding:0px;">
+        <div class="head">
+            <div class="image">
+                <img src="/resources/img/banner-biblioteca.jpg" style="width:250px;"></img>
+            </div>
+            <div id="divbarraid" class="divbarra">
+                <h1>Consultar Recursos Biblioteca ECI</h1>
+            </div>
+        </div>
+        <div class="nav">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Inicio" action="#{recursoBean.reloadAdmin}" icon="pi pi-times" />
+                    <p:submenu label="Opciones" icon="pi pi-file">
+                        <p:menuitem value="Agregar recurso" onclick="PF('dlg1').show();" />
+                        <p:menuitem value="Reservar recurso" url="/faces/admin/pages/verRecursos.xhtml" />
+                        <p:menuitem value="Ver estadísticas" url="/faces/admin/pages/estadisticas.xhtml" action="#{recursoBean.iniciarDatos()}" />
+                    </p:submenu>
+                    <p:menuitem value="Bienvenido #{userBean.nombre}" icon="pi pi-times"/>
+                    <f:facet name="options">
+                        <p:commandButton value="Cerrar sesión" class="dropdown-item" action="#{userBean.doLogOut()}" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+        </div>
+        <br></br>
+        <div class="registrar">
+            <h:form id="frmm2">
+
+                <p:dialog header="Agregar Recurso" widgetVar="dlg1" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="nombre" value="Nombre:" />
+                        <p:inputText id="nombre" label="nombre"
+                                     binding="#{nombre}"/>
+
+
+                        <h:outputLabel for="capacidad" value="Capacidad:" />
+                        <p:inputText id="capacidad" label="capacidad"
+                                     binding="#{capacidad}"/>
+
+                        <label class="bmd-label-floating">Ubicacion:</label>
+                        <h:selectOneMenu value="#{recursoBean.ubicacionSeleccionada}" class="form-control">
+                            <f:selectItems value="#{recursoBean.getUbicaciones()}" />
+                        </h:selectOneMenu>
+
+                        <label class="bmd-label-floating">Tipo:</label>
+                        <h:selectOneMenu value="#{recursoBean.tipoSleccionado}" class="form-control">
+                            <f:selectItems value="#{recursoBean.getTipos()}" />
+                        </h:selectOneMenu>
+
+                        <p:outputLabel for="time" value="Hora inicial:" />
+                        <p:calendar id="time" value="#{recursoBean.horaInicial}" pattern="HH:mm" timeOnly="true"  />
+
+                        <p:outputLabel for="time" value="Hora final:" />
+                        <p:calendar id="time2" value="#{recursoBean.horaFinal}" pattern="HH:mm" timeOnly="true"  />
+
+                        <p:growl id="message1" showDetail="true" />
+                        <p:commandButton class="buttonR" value="Registrar" update="message1">
+                            <p:confirm header="Confirmación" message="¿Desea registrar este recurso?" icon="pi pi-exclamation-triangle" />
+                            <f:actionListener binding="#{recursoBean.registrarRecurso(nombre.value, capacidad.value)}" update="frmm2"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <div align="center">
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                            </div>
+                        </p:confirmDialog>
+
+                    </h:panelGrid>
+                </p:dialog>
+                <p:dialog header="Editar Recurso" widgetVar="dlg2" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="2">
+
+                        <label class="bmd-label-floating">Estado:</label>
+                        <h:selectOneMenu value="#{recursoBean.estadoSeleccionado}" class="form-control">
+                            <f:selectItems value="#{recursoBean.getEstadosRecurso()}" />
+                        </h:selectOneMenu>
+
+                        <p:growl id="message3" showDetail="true" />
+                        <p:commandButton class="buttonR" value="Editar" update="message3">
+                            <p:confirm header="Confirmación" message="¿Desea editar este recurso?" icon="pi pi-exclamation-triangle" />
+                            <f:actionListener binding="#{recursoBean.editarEstadoRecurso()}" update="frmm3"/>
+                            <f:actionListener binding="#{recursoBean.reloadAdmin()}" update="frmm4"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <div align="center">
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                            </div>
+                        </p:confirmDialog>
+                    </h:panelGrid>                                            
+                </p:dialog>
+            </h:form>
+        </div>
+
+        <br></br>
+
+        <p:panel class="panelregistro">
+            <h:panelGroup class="panelregistro" id="paneregistroid">
+                <table class="panelRegistroF" id="Registro_table">
+                    <thead class="panelregistroH">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Ubicacion</th>
+                            <th>Capacidad</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Eliminar</th>
+                            <th>Editar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <r:repeat var="recursos" value="#{recursoBean.recursosAdmin}">
+                            <tr>
+                                <td align="center" class="columregistro">#{recursos.nombre}</td>
+                                <td align="center" class="columregistro">#{recursos.ubicacion}</td>
+                                <td align="center" class="columregistro">#{recursos.capacidad}</td>
+                                <td align="center" class="columregistro">#{recursos.tipoRecurso.tipo}</td>
+                                <td align="center" class="columregistro">#{recursos.estado}</td>
+                                <td align="center" class="columregistro">
+                                    <h:form id="frmm3">
+                                        <p:growl id="message" showDetail="true" />
+                                        <p:commandButton class="buttonR"  value="Eliminar Recurso" update="message">
+                                            <p:confirm header="Confirmación" message="¿Desea eliminar el recurso?" icon="pi pi-exclamation-triangle" />
+                                            <f:actionListener binding="#{recursoBean.eliminarRecurso(recursos.identificadorInterno)}" update="frmm3"/>
+                                            <f:actionListener binding="#{recursoBean.reloadAdmin()}" update="frmm3"/>
+                                        </p:commandButton>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                            </div>
+                                        </p:confirmDialog>
+                                    </h:form>
+                                </td>
+                                <td align="center" class="columregistro">
+                                    <h:form id="frmm4">
+                                        <p:commandButton value="Editar Recurso" onclick="PF('dlg2').show();">
+                                        <f:actionListener binding="#{recursoBean.seleccionarRecurso(recursos.identificadorInterno)}" update="frmm4"/>
+                                        </p:commandButton>
+                                    </h:form>
+                                </td>
+                            </tr>
+                        </r:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </p:panel>
+
+        <br></br>
+
+        <script>
+            $(document).ready(function () {
+                $('#Registro_table').DataTable();
+            });
+        </script>
+
+
+        <!-- Site footer -->
+
+        <!-- Footer -->
+        <div class="footerlogin" id="footerloginid"></div>
+        <!-- Footer -->
+
+    </h:body>
+</html>

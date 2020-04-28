@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:r="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta charset="utf-8"/>
+        <link rel="icon" type="image/png" href="/resources/img/libro.png" />
+        <link href="/resources/css/login.css" rel="stylesheet" />
+        <title>Consultar Horario Recurso</title>
+    </h:head>
+    <h:body style="margin:0px; padding:0px;">
+        <div class="head">
+            <div class="image">
+                <img src="/resources/img/banner-biblioteca.jpg" style="width:250px;"></img>
+            </div>
+            <div class="logout">
+                <h:form id="frmm">
+                    <p:commandButton value="Regresar" class="dropdown-item"
+                                     action="#{recursoBean.reloadGuest()}" />
+                </h:form>
+            </div>
+            <div id="divbarraid" class="divbarra">
+                <h1>Horario del recurso</h1>
+            </div>
+        </div>
+
+        <br></br>
+
+        <div>
+            <h:form>
+                <p:growl id="messages" showDetail="true" />
+
+                <h:panelGrid columnClasses="value" class="panelHorario">
+                    <p:schedule id="schedule" value="#{recursoBean.eventModel}" widgetVar="myschedule" >
+                    </p:schedule>
+                </h:panelGrid>   
+            </h:form>
+        </div>
+        <br/>
+        <!-- Footer -->
+        <div class="footerlogin" id="footerloginid"></div>
+        <!-- Footer -->
+
+    </h:body>
+</html>

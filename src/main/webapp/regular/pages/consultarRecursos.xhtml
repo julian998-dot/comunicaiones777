@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:r="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="keywords" content="footer, address, phone, icons" />
+        <title>Consultar Recurso</title>
+
+        <link rel="icon" type="image/png" href="/resources/img/libro.png" />
+        <link href="/resources/css/login.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+
+        <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    </h:head>
+    <h:body style="margin:0px; padding:0px;" >
+        <div class="head">
+            <div id="divbarraid" class="divbarra">
+                <h1>Surprise!</h1>
+            </div>
+        </div>
+
+
+        <br></br>
+        <p:panel class="panelregistro">
+            <h:panelGroup class="panelregistro" id="panelregistroid">
+                <table class="panelRegistroF" id="Registro_table">
+                    <thead class="panelregistroH">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Reservar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <r:repeat var="recursos" value="#{recursoBean.recursos}">
+                            <tr>
+                                <td align="center" class="columregistro">#{recursos.nombre}</td>
+                                <td align="center" class="columregistro">#{recursos.ubicacion}</td>
+                                <td align="center" class="columregistro">#{recursos.tipoRecurso.tipo}</td>
+                                <td align="center" class="columregistro">#{recursos.estado}</td>
+                                <td align="center" class="columregistro">
+                                    <h:form id="frmm3">
+                                        <p:growl id="message" showDetail="true" />
+                                        <p:commandButton class="buttonR"  value="Reservar Producto" update="message">
+                                            <p:confirm header="Confirmación" message="¿Desea reservar el recurso #{recursos.nombre}?" icon="pi pi-exclamation-triangle" />
+                                            <f:actionListener binding="#{recursoBean.horariosPage(recursos.identificadorInterno)}" update="Registro_table"/>
+                                        </p:commandButton>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                            </div>
+                                        </p:confirmDialog>
+                                    </h:form>
+                                </td>
+                            </tr>
+                        </r:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </p:panel>
+        <br/>
+        <script>
+            $(document).ready(function () {
+                $('#Registro_table').DataTable();
+            });
+        </script>
+
+
+        <!-- Site footer -->
+
+        <!-- Footer -->
+        <div class="footerlogin" id="footerloginid"></div>
+        <!-- Footer -->
+
+    </h:body>
+</html>
