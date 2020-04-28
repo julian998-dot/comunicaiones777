@@ -1,4 +1,3 @@
-# comunicaiones777
 
 Please note that these credentials are not permanent.
 
@@ -32,3 +31,4 @@ postgres://ujdpfmtuelkbjc:a2c4d86165946a9ec151b29c383c4ef2aa3eee257913c807b81cc2
 
 Heroku CLI
 heroku pg:psql postgresql-globular-34541 --app comunicaciones777
+
