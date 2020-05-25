@@ -11,7 +11,7 @@ html, body {
     margin-left: 0;
     position: absolute;
     height: 5vh;
-    background: #9F0D0D;
+    background: #FB6E05;
 }
 
 .image{
@@ -21,7 +21,7 @@ html, body {
 
 .head{
     height: 100%;
-    background: #9F0D0D;
+    background: #FB6E05;
 }
 
 .logout {
@@ -49,13 +49,13 @@ html, body {
 
 .divlogin{
     margin: 0 0 0 0;
-    border: #9F0D0D;
+    border: #FB6E05;
     position: absolute;
     top: 35%;
     left: 42%;
     font-family: cursive;
     background: rgba(214,153,153,0.5);
-    border: 2px solid #9F0D0D;
+    border: 2px solid #FB6E05;
     border-radius: 3px;
 }
 
@@ -113,17 +113,17 @@ html, body {
     color: #fff;
     font-family: 'Inter UI', sans-serif;
     font-size: 18px;
-    background: #9F0D0D;
+    background: #FB6E05;
     -webkit-border-radius:10px ;
 }
 
 .ui-menu .ui-menu-parent .ui-menu-child {
-    background: #9F0D0D;
+    background: #FB6E05;
 }
 
 .ui-menubar {
     width: auto;
-    background: #9F0D0D;
+    background: #FB6E05;
 }
 
 .ui-menu .ui-menuitem-text {
@@ -140,7 +140,7 @@ html, body {
 }
 
 a:link, a:visited {
-    background-color: #9F0D0D;
+    background-color: #FB6E05;
     color: white;
     padding: 0 50%;
     text-align: center;
