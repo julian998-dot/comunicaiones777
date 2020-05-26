@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface RecursoMapper {
+
+    public void reserva(@Param("id") int id);
     /**
      * Registra un nuevo recurso a la base de datos
      * @param recurso el nuevo recurso

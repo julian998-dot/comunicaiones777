@@ -10,9 +10,14 @@
         <result property="ubicacion" column="ubicacion"/>
         <result property="capacidad" column="capacidad"/>
         <result property="estado" column="estado"/>
+        <result property="reservadas" column="reservadas"/>
         <association property="tipoRecurso" javaType="edu.eci.cvds.entities.TipoRecurso" resultMap="edu.eci.cvds.persistence.mybatisimpl.mappers.TipoRecursoMapper.TipoRecursoResult"
                      columnPrefix="tr_"/>
     </resultMap>
+
+    <update id="reserva" parameterType="map">
+      update RECURSO set reservadas=reservadas+1 where id_interno=#{id};
+    </update>
 
     <insert id="registraNuevoRecurso" parameterType="map">
         insert into RECURSO(nombre,ubicacion,capacidad,id_tipo,estado) values
@@ -37,6 +42,7 @@
         r.capacidad,
         r.estado,
         r.nombre,
+        r.reservadas,
         r.ubicacion,
         tr.id as tr_id,
         tr.tipo as tr_tipo

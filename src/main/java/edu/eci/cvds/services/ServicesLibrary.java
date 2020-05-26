@@ -4,17 +4,19 @@ import edu.eci.cvds.entities.Horario;
 import edu.eci.cvds.entities.Recurso;
 import edu.eci.cvds.entities.Reserva;
 import edu.eci.cvds.entities.Usuario;
-
 import java.sql.Timestamp;
 import java.util.List;
 
 
 public interface ServicesLibrary {
+    public int reg();
     /**
      * Consulta todos los recursos
      * @return una lista con todos los recursos
      */
     public List<Recurso> consultarRecursos() throws LibraryServicesException;
+
+    public void reserva(int id);
 
     /**
      * Consulta un unico recurso

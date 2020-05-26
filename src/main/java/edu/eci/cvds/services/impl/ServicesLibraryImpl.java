@@ -11,7 +11,7 @@ import edu.eci.cvds.services.LibraryServicesException;
 import edu.eci.cvds.services.ServicesLibrary;
 import edu.eci.cvds.persistence.DaoRecurso;
 import edu.eci.cvds.services.ServicesLibraryFactory;
-
+import java.lang.Math;
 import javax.inject.Inject;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -36,8 +36,43 @@ public class ServicesLibraryImpl implements ServicesLibrary {
     }
 
     @Override
+    public int reg(){
+      List<Recurso> rec=null;
+      try{
+        rec = recursoDao.consultarRecursos();
+      }catch(Exception e){
+        e.printStackTrace();
+      }
+      int n=rec.size();
+      int sumxy=0;
+      int sumx=0;
+      int sumy=0;
+      int sumx2=0;
+      int x_max=-100000000;
+      for(Recurso i:rec){
+        if(i.getReservadas()>x_max){
+          x_max=i.getReservadas();
+        }
+        sumxy+=i.getIdentificadorInterno()*i.getReservadas();
+        sumy+=i.getIdentificadorInterno();
+        sumx+=i.getReservadas();
+        sumx2+=Math.pow(i.getReservadas(),2);
+      }
+      double a=(n*sumxy-sumx*sumy)/(n*sumx2-Math.pow(sumx,2));
+      double b=(sumy-a*sumx)/(n);
+      double y=a*x_max+b;
+      int result=(int)Math.round(y);
+      return(result);
+    }
+
+    @Override
     public Recurso consultarRecurso(int id) throws LibraryServicesException {
         return recursoDao.consultarRecurso(id);
+    }
+
+    @Override
+    public void reserva(int id){
+      recursoDao.reserva(id);
     }
 
     @Override

@@ -75,7 +75,10 @@ public class RecursoBean extends BasePageBean {
     private BarChartModel recursoMenosUsadosGra;
     private BarChartModel horariosMasUsadosGra;
     private BarChartModel horariosMenosUsadosGra;
+    public int rec(){
+      return servicesL.reg();
 
+    }
     private BarChartModel initBarModel() {
         BarChartModel model = new BarChartModel();
 
@@ -114,6 +117,10 @@ public class RecursoBean extends BasePageBean {
         model.addSeries(canceladas);
 
         return model;
+    }
+
+    public void reservar(int id){
+      servicesL.reserva(id);
     }
 
     public BarChartModel getTipoDeReservasGra() {

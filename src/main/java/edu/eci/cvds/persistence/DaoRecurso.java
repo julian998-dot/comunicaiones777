@@ -13,6 +13,8 @@ public interface DaoRecurso {
      */
     public void registraNuevoRecurso(Recurso recurso) throws LibraryServicesException;
 
+    public void reserva(int id);
+
     /**
      * Elimina un recurso de forma permanente
      * @param recurso El recurso a eliminar

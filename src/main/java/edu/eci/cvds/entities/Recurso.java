@@ -10,6 +10,7 @@ public class Recurso implements Serializable {
     private TipoRecurso tipoRecurso;
     private int identificadorInterno;
     private Integer capacidad;
+    private int reservadas;
     private String estado;
     private List<String> estados;
 
@@ -99,7 +100,9 @@ public class Recurso implements Serializable {
     public String getUbicacion() {
         return ubicacion;
     }
-
+    public int getReservadas(){
+      return reservadas;
+    }
     /**
      * Getter del tipo del recurso
      * @return el tipo del recurso
@@ -131,7 +134,10 @@ public class Recurso implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    public void setReservadas(int reservadas){
+      this.reservadas=reservadas;
 
+    }
     /**
      * Setter del tipo de recurso
      * @param tipoRecurso el tipo del recurso
