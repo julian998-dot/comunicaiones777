@@ -75,7 +75,7 @@ public class RecursoBean extends BasePageBean {
     private BarChartModel recursoMenosUsadosGra;
     private BarChartModel horariosMasUsadosGra;
     private BarChartModel horariosMenosUsadosGra;
-    public int rec(){
+    public String rec(){
       return servicesL.reg();
 
     }
@@ -344,6 +344,10 @@ public class RecursoBean extends BasePageBean {
 
     public void reloadGuest() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("/faces/consultarRecursos.xhtml");
+    }
+
+    public void reloadIndex() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/faces/index.xhtml");
     }
 
     public void reload(String tipo) throws IOException {

@@ -10,10 +10,9 @@ import edu.eci.cvds.persistence.DaoUsuario;
 import edu.eci.cvds.services.LibraryServicesException;
 import edu.eci.cvds.services.ServicesLibrary;
 import edu.eci.cvds.persistence.DaoRecurso;
-import edu.eci.cvds.services.ServicesLibraryFactory;
+
 import java.lang.Math;
 import javax.inject.Inject;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,7 +35,8 @@ public class ServicesLibraryImpl implements ServicesLibrary {
     }
 
     @Override
-    public int reg(){
+    public String reg(){
+      String nombre="Globos";
       List<Recurso> rec=null;
       try{
         rec = recursoDao.consultarRecursos();
@@ -52,6 +52,7 @@ public class ServicesLibraryImpl implements ServicesLibrary {
       for(Recurso i:rec){
         if(i.getReservadas()>x_max){
           x_max=i.getReservadas();
+          nombre=i.getNombre();
         }
         sumxy+=i.getIdentificadorInterno()*i.getReservadas();
         sumy+=i.getIdentificadorInterno();
@@ -62,7 +63,12 @@ public class ServicesLibraryImpl implements ServicesLibrary {
       double b=(sumy-a*sumx)/(n);
       double y=a*x_max+b;
       int result=(int)Math.round(y);
-      return(result);
+      try {
+          return (nombre);
+      }catch (Exception e){
+          e.printStackTrace();
+      }
+      return "Globos";
     }
 
     @Override

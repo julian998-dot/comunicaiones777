@@ -26,8 +26,8 @@
             </div>
         </div>
         <div class="head">
-            <div id="divbarraid" class="divbarra">
-                <h1>Se le recomienda= #{recursoBean.reg()}</h1>
+            <div id="divbarrai" class="divbarra">
+                <h1>Se le recomienda= #{recursoBean.rec()}</h1>
             </div>
         </div>
 
@@ -58,7 +58,7 @@
                                         <p:growl id="message" showDetail="true" />
                                         <p:commandButton class="buttonR"  value="Reservar Producto" update="message">
                                             <p:confirm header="Confirmación" message="¿Desea reservar el recurso #{recursos.nombre}?" icon="pi pi-exclamation-triangle" />
-                                            <f:actionListener binding="#{recursoBean.reservar(recursos.identificadorInterno)}" update="Registro_table"/>
+                                            <f:actionListener binding="#{recursoBean.reservar(recursos.identificadorInterno)}" update="Registro_table" action="#{recursoBean.reloadIndex()}"/>
                                         </p:commandButton>
 
                                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

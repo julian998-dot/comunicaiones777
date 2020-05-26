@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public interface ServicesLibrary {
-    public int reg();
+    public String reg();
     /**
      * Consulta todos los recursos
      * @return una lista con todos los recursos
